@@ -32,7 +32,7 @@ mailTo=your_admin_email@example.org
 # number of elements is 3, if you want to add more, then also modify "rsync" string below!
 #websiteEXCLUDE=('dir1/' 'dir2/' 'dir3/')
 # local log/history file of backups
-websiteCopyLOG=".backup_dir-log.txt"
+remoteBackupLog=".backup_dir-log.txt"
 
 # hour when to send notification email
 emailHour=5
@@ -42,8 +42,8 @@ ISERROR=0
 ######## END of CONFIG ########
 
 # print the date that the script was run on
-echo -e "\n==> Copy script run at $(date)\c" >> $websiteBACKUP/$websiteCopyLOG
-echo -e "\n" >> $websiteBACKUP/$websiteCopyLOG
+echo -e "\n==> Copy script run at $(date)\c" >> $websiteBACKUP/$remoteBackupLog
+echo -e "\n" >> $websiteBACKUP/$remoteBackupLog
 
 #rm -rf $websiteBACKUP/backup.5
 #mv $websiteBACKUP/backup.3 $websiteBACKUP/backup.5
@@ -71,8 +71,8 @@ if [ $? -eq 0 ]
     ISERROR=1
 fi 
 
-   echo "$edwDIRMESS" >> $websiteBACKUP/$websiteCopyLOG
-   echo "$bckLogMess" >> $websiteBACKUP/$websiteCopyLOG   
+   echo "$edwDIRMESS" >> $websiteBACKUP/$remoteBackupLog
+   echo "$bckLogMess" >> $websiteBACKUP/$remoteBackupLog   
 
 ### Sending a message with the report in case of 'emailHour' or error event
 hourNow=$(date +"%H")
@@ -83,6 +83,6 @@ if [ $ISERROR -eq 1 -o $hourNow -eq $emailHour ]; then
    $edwDIRMESS
    ISERROR=$ISERROR
    
-   More in $websiteBACKUP/$websiteCopyLOG.
-   Your script, $BASH_SOURCE" | mail -s $websiteCopyLOG $mailTo
+   More in $websiteBACKUP/$remoteBackupLog.
+   Your script, $BASH_SOURCE" | mail -s $remoteBackupLog $mailTo
 fi
